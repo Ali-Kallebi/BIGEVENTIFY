@@ -1,0 +1,32 @@
+{
+  "name": "event-management",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@fullcalendar/bootstrap": "^6.1.17",
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/interaction": "^6.1.17",
+    "@fullcalendar/list": "^6.1.17",
+    "@fullcalendar/timegrid": "^6.1.17",
+    "bootstrap": "^5.3.3",
+    "jquery-ui": "^1.14.1",
+    "primeicons": "^7.0.0",
+    "primeng": "^19.0.10"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^1.0",
+    "webpack": "^5.0",
+    "webpack-cli": "^4.0",
+    "sass": "^1.32.0",
+    "sass-loader": "^11.0.1",
+    "postcss-loader": "^4.0.0",
+    "style-loader": "^2.0.0",
+    "css-loader": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "encore dev",
+    "dev-server": "encore dev --watch",
+    "build": "encore production"
+  }
+}

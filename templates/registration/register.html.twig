@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="container min-vh-100 d-flex align-items-center">
+    <div class="card border-0 p-4 mx-auto shadow-lg" style="max-width: 450px; width: 100%; border-radius: 15px; overflow: hidden;">
+        <!-- Gradient header -->
+        <div class="card-header bg-transparent border-0 py-4 position-relative overflow-hidden">
+            <div class="position-absolute w-100 h-100 top-0 start-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); opacity: 0.8;"></div>
+            <div class="position-relative text-center">
+                <h2 class="text-white mb-1 fw-bold">Rejoignez-nous</h2>
+                <p class="text-white-50 mb-0">Créez votre compte en quelques secondes</p>
+            </div>
+        </div>
+
+        <div class="card-body px-4 py-4">
+            {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                <!-- Floating labels -->
+                <div class="form-floating mb-3">
+                    {{ form_widget(registrationForm.firstName, {
+                        'attr': {
+                            'class': 'form-control rounded-3',
+                            'placeholder': ' ',
+                            'id': 'floatingFirstName'
+                        }
+                    }) }}
+                    {{ form_label(registrationForm.firstName, 'Prénom', {
+                        'label_attr': {'for': 'floatingFirstName'}
+                    }) }}
+                </div>
+
+                <div class="form-floating mb-3">
+                    {{ form_widget(registrationForm.lastName, {
+                        'attr': {
+                            'class': 'form-control rounded-3',
+                            'placeholder': ' ',
+                            'id': 'floatingLastName'
+                        }
+                    }) }}
+                    {{ form_label(registrationForm.lastName, 'Nom de famille', {
+                        'label_attr': {'for': 'floatingLastName'}
+                    }) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.roles, 'Rôle', {
+                        'label_attr': {'class': 'form-label text-muted small'}
+                    }) }}
+                    {{ form_widget(registrationForm.roles, {
+                        'attr': {
+                            'class': 'form-select rounded-3 py-3',
+                            'data-choice': 'true'
+                        }
+                    }) }}
+                </div>
+
+                <div class="form-floating mb-3">
+                    {{ form_widget(registrationForm.email, {
+                        'attr': {
+                            'class': 'form-control rounded-3',
+                            'placeholder': ' ',
+                            'id': 'floatingEmail'
+                        }
+                    }) }}
+                    {{ form_label(registrationForm.email, 'Adresse e-mail', {
+                        'label_attr': {'for': 'floatingEmail'}
+                    }) }}
+                </div>
+
+                <div class="form-floating mb-4">
+                    {{ form_widget(registrationForm.plainPassword, {
+                        'attr': {
+                            'class': 'form-control rounded-3',
+                            'placeholder': ' ',
+                            'id': 'floatingPassword'
+                        }
+                    }) }}
+                    {{ form_label(registrationForm.plainPassword, 'Mot de passe', {
+                        'label_attr': {'for': 'floatingPassword'}
+                    }) }}
+                </div>
+
+                <div class="d-grid mb-3">
+                    {{ form_widget(registrationForm.submit, {
+                        'label': 'S\'inscrire',
+                        'attr': {
+                            'class': 'btn btn-lg rounded-pill text-white fw-bold border-0',
+                            'style': 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);',
+                            'data-bs-hover-animate': 'pulse'
+                        }
+                    }) }}
+                </div>
+
+                <div class="text-center mt-3">
+                    <p class="text-muted small">Déjà un compte ? <a href="{{ path('app_login') }}" class="text-decoration-none" style="color: #667eea;">Connectez-vous</a></p>
+                </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .form-floating>label {
+        color: #6c757d;
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .form-floating>.form-control:focus~label,
+    .form-floating>.form-control:not(:placeholder-shown)~label {
+        transform: scale(0.85) translateY(-1.5rem) translateX(0.15rem);
+        color: #667eea;
+    }
+    
+    [data-bs-hover-animate="pulse"]:hover {
+        animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+        100% { transform: scale(1); }
+    }
+</style>
+{% endblock %}

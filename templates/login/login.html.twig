@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur BIG Eventify{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-0 min-vh-100" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="row g-0">
+        <!-- Partie image à gauche -->
+        <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5">
+            <div class="position-relative" style="max-width: 100%;">
+                
+               
+
+                <!-- Image principale sous forme de cercle -->
+                <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5">
+    <div class="position-relative" style="max-width: 100%;"> <!-- changé de 80% à 100% -->
+        <img src="{{ asset('images/events/Log.png') }}" 
+             alt="Welcome Image" 
+             class="img-fluid rounded-4 shadow-lg" 
+             style="width: 320%; max-width: 1500px; height: 700px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
+        <div class="position-absolute bottom-0 start-0 p-4">
+            <h3 class="text-white fw-bold">Découvrez des événements extraordinaires</h3>
+            <p class="text-white-50">Rejoignez notre communauté de passionnés</p>
+        </div>
+    </div>
+</div>
+               
+            </div>
+        </div>
+
+        <!-- Partie formulaire à droite -->
+        <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 p-md-5">
+            <div class="bg-white rounded-4 shadow-sm p-4 p-md-5" style="width: 100%; max-width: 600px;">
+                
+                <!-- Logo placé au-dessus du titre -->
+                <div class="d-flex justify-content-center mb-4">
+                    <div class="rounded-circle shadow-lg overflow-hidden" style="width: 150px; height: 150px; background: white;">
+                        <img src="{{ asset('images/events/logo.png') }}" 
+                             alt="Logo BIG Eventify" 
+                             class="img-fluid w-100 h-100" 
+                             style="object-fit: cover;">
+                    </div>
+                </div>
+
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold mb-3" style="color: #4e54c8;">Heureux de vous revoir ! 😊</h2>
+                    <p class="text-muted">
+                        Connectez-vous pour accéder à votre compte et découvrir nos dernières nouveautés ! 🚀
+                    </p>
+                </div>
+                
+                <form action="{{ path('app_login') }}" method="post" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="email" class="form-label fw-semibold">Adresse e-mail</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-envelope-fill text-muted"></i>
+                            </span>
+                            <input type="email" id="email" name="_username" class="form-control border-start-0 ps-2 py-3" 
+                                   value="{{ last_username }}" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-semibold">Mot de passe</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="bi bi-lock-fill text-muted"></i>
+                            </span>
+                            <input type="password" id="password" name="_password" class="form-control border-start-0 ps-2 py-3" required>
+                            <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword">
+                                <i class="bi bi-eye-fill"></i>
+                            </button>
+                        </div>
+                        <div class="text-end mt-2">
+                            <a href="#" class="text-decoration-none" style="color: #4e54c8;">Mot de passe oublié ?</a>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remember_me" name="_remember_me" style="background-color: #4e54c8;">
+                            <label class="form-check-label" for="remember_me">Se souvenir de moi</label>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-primary py-3 fw-bold rounded-3" 
+                                style="background: linear-gradient(to right, #4e54c8, #8f94fb); border: none;">
+                            Connexion
+                        </button>
+                        <a href="{{ path('app_register') }}" class="btn btn-outline-primary py-3 fw-bold rounded-3">
+                            Créer un compte
+                        </a>
+                    </div>
+                </form>
+
+                {% if error %}
+                    <div class="alert alert-danger mt-4 rounded-3">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                <div class="text-center mt-5">
+                    <div class="position-relative mb-4">
+                        <hr>
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">Ou connectez-vous avec</span>
+                    </div>
+                    <div class="d-flex justify-content-center gap-3">
+                         <!-- Facebook -->
+                        <a href="https://www.facebook.com/geteventify/" class="d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 50px; height: 50px; background-color: #3b5998;">
+                            <img src="{{ asset('images/events/fc.png') }}" alt="Facebook" class="img-fluid" style="width: 30px; height: 30px;">
+                        </a>
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/23448595" class="d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 50px; height: 50px; background-color: #25D366;">
+                            <img src="{{ asset('images/events/wtsp.png') }}" alt="WhatsApp" class="img-fluid" style="width: 30px; height: 30px;">
+                        </a>
+                        <!-- Mail -->
+                        <a href="mailto:alikallebi92@gmail.com" class="d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 50px; height: 50px; background-color: #D44638;">
+                            <img src="{{ asset('images/events/mail.png') }}" alt="Mail" class="img-fluid" style="width: 30px; height: 30px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: #8f94fb;
+        box-shadow: 0 0 0 0.25rem rgba(142, 148, 251, 0.25);
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(to right, #3a3f9e, #7b80e8);
+    }
+    
+    .rounded-4 {
+        border-radius: 1rem !important;
+    }
+</style>
+
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const password = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('bi-eye-fill');
+            icon.classList.add('bi-eye-slash-fill');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('bi-eye-slash-fill');
+            icon.classList.add('bi-eye-fill');
+        }
+    });
+</script>
+{% endblock %}

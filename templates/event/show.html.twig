@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Colonne de gauche : Informations de l'événement -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+               
+              
+                <div class="bg-gradient-primary text-white py-5" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="d-flex align-items-center justify-content-center h-100">
+                        <h1 class="display-4 fw-bold">{{ event.title|first|upper }}</h1>
+                    </div>
+                </div>
+                
+                
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="badge rounded-pill bg-primary px-3 py-2" style="font-size: 1rem; background: linear-gradient(to right, #4e54c8, #8f94fb);">
+                            {{ event.category.name }}
+                        </span>
+                        <span class="text-muted">
+                            <i class="bi bi-calendar-event me-2"></i>{{ event.date|date('d M Y, H:i') }}
+                        </span>
+                    </div>
+
+                    <h1 class="fw-bold mb-4" style="color: #2A3D63; font-size: 2.5rem;">{{ event.title }}</h1>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-geo-alt-fill me-3" style="font-size: 1.5rem; color: #4e54c8;"></i>
+                            <div>
+                                <h5 class="mb-0 fw-semibold">Lieu</h5>
+                                <p class="mb-0">{{ event.location }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-people-fill me-3" style="font-size: 1.5rem; color: #4e54c8;"></i>
+                            <div>
+                                <h5 class="mb-0 fw-semibold">Participants</h5>
+                                <p class="mb-0">{{ event.participants|length }} / {{ event.maxParticipants }} ({{ event.maxParticipants - event.participants|length }} places restantes)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-person-badge-fill me-3" style="font-size: 1.5rem; color: #4e54c8;"></i>
+                            <div>
+                                <h5 class="mb-0 fw-semibold">Organisateur</h5>
+                                <p class="mb-0">{{ event.creator.firstName }} {{ event.creator.lastName }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3" style="color: #2A3D63;">Description</h5>
+                        <div class="bg-light p-4 rounded-3" style="border-left: 4px solid #4e54c8;">
+                            <p class="mb-0">{{ event.description }}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 mt-5">
+                        <a href="{{ path('app_event_list') }}" class="btn btn-outline-primary px-4 py-2 rounded-pill fw-semibold">
+                            <i class="bi bi-arrow-left me-2"></i>Retour à la liste
+                        </a>
+                        
+                        {% if event.participants|length >= event.maxParticipants %}
+                            <button class="btn btn-secondary px-4 py-2 rounded-pill fw-semibold" disabled>
+                                Complet
+                            </button>
+                        {% else %}
+                            {% if app.user %}
+                                {% if not event.participants.contains(app.user) %}
+                                    <form method="POST" action="{{ path('app_event_register', {'id': event.id}) }}" class="m-0">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('register' ~ event.id) }}">
+                                        <button type="submit" class="btn btn-success px-4 py-2 rounded-pill fw-semibold">
+                                            <i class="bi bi-check-circle-fill me-2"></i>S'inscrire
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="{{ path('app_event_unregister', {'id': event.id}) }}" class="m-0">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('unregister' ~ event.id) }}">
+                                        <button type="submit" class="btn btn-danger px-4 py-2 rounded-pill fw-semibold" onclick="return confirm('Êtes-vous sûr de vouloir vous désinscrire ?')">
+                                            <i class="bi bi-x-circle-fill me-2"></i>Se désinscrire
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colonne de droite : Liste des participants -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h3 class="fw-bold mb-0 text-center" style="color: #2A3D63;">
+                        <i class="bi bi-people-fill me-2"></i>Participants
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    {% if event.participants is not empty %}
+                        <div class="row g-3">
+                            {% for participant in event.participants %}
+                            <div class="col-6 col-md-4 col-lg-6">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mb-2" 
+                                         style="width: 60px; height: 60px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                                        <span class="fw-bold" style="font-size: 1.5rem; color: #4e54c8;">
+                                            {{ participant.firstName|first|upper }}{{ participant.lastName|first|upper }}
+                                        </span>
+                                    </div>
+                                    <small class="text-muted">{{ participant.firstName }} {{ participant.lastName|first }}.</small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-emoji-frown" style="font-size: 2rem; color: #adb5bd;"></i>
+                            <p class="mt-3 mb-0">Aucun participant pour le moment</p>
+                            <small class="text-muted">Soyez le premier à vous inscrire !</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .btn-success {
+        background: linear-gradient(to right, #28a745, #5cb85c);
+        border: none;
+    }
+    
+    .btn-danger {
+        background: linear-gradient(to right, #dc3545, #d9534f);
+        border: none;
+    }
+    
+    .btn-outline-primary:hover {
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        color: white !important;
+    }
+</style>
+{% endblock %}

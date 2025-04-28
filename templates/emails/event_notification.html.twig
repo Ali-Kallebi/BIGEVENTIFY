@@ -1,0 +1,21 @@
+{# templates/emails/event_notification.html.twig #}
+<h3 style="color: #2A3D63; font-family: 'Poppins', sans-serif;">
+    Notification d'{{ actionText }}
+</h3>
+
+<p style="font-size: 16px; line-height: 1.5;">
+    L'utilisateur <strong>{{ participantName }}</strong> 
+    s'est {{ actionText }} à votre événement 
+    <strong>{{ eventTitle }}</strong>.
+</p>
+
+<p style="font-size: 14px; color: #666;">
+    Date de l'événement : {{ eventDate|date('d/m/Y H:i') }}
+</p>
+
+<div style="margin-top: 20px; text-align: center;">
+    <a href="{{ eventUrl }}" 
+       style="background-color: #2A3D63; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-family: 'Poppins', sans-serif;">
+        Voir l'événement
+    </a>
+</div>

@@ -1,0 +1,23 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    csrf_protection: true # ✅ Active la protection CSRF
+    http_method_override: true
+
+    # Configuration de la session
+    session:
+        handler_id: ~
+        cookie_secure: auto # ✅ Active la sécurité des cookies si HTTPS est activé
+        cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
+
+    # Active la gestion des fragments et ESI (si nécessaire)
+    esi: true
+    fragments: true
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

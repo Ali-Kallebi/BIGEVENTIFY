@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ form.vars.value.id ? 'Modifier un Événement' : 'Créer un Événement' }}{% endblock %}
+
+{% block body %}
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="card border-0 p-5 mx-auto shadow-lg" style="max-width: 700px; width: 100%; border-radius: 20px; overflow: hidden; background: linear-gradient(to bottom right, #F9F9FB, #FFFFFF);">
+        <!-- Animated gradient header -->
+        <div class="position-relative overflow-hidden mb-4">
+            <div class="position-absolute w-100 h-100 top-0 start-0" style="background: linear-gradient(135deg, #6A82FB 0%, #FC5C7D 100%); opacity: 0.1; border-radius: 15px;"></div>
+            <h2 class="text-center mb-0 py-3 position-relative" style="font-family: 'Poppins', sans-serif; color: #4A4E69; font-weight: 700; letter-spacing: -0.5px;">
+                {{ form.vars.value.id ? 'Modifier l\'Événement' : 'Créer un Nouvel Événement' }}
+                <div class="position-absolute bottom-0 start-50 translate-middle-x" style="width: 80px; height: 4px; background: linear-gradient(135deg, #6A82FB 0%, #FC5C7D 100%); border-radius: 2px;"></div>
+            </h2>
+        </div>
+
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+            <div class="row g-4">
+                <!-- Titre -->
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        {{ form_widget(form.title, {
+                            'attr': {
+                                'class': 'form-control border-0 shadow-sm rounded-4 py-3',
+                                'placeholder': ' ',
+                                'id': 'floatingTitle'
+                            }
+                        }) }}
+                        {{ form_label(form.title, 'Titre de l\'événement', {
+                            'label_attr': {'for': 'floatingTitle', 'class': 'text-muted'}
+                        }) }}
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        {{ form_widget(form.description, {
+                            'attr': {
+                                'class': 'form-control border-0 shadow-sm rounded-4 py-3',
+                                'placeholder': ' ',
+                                'style': 'height: 120px;',
+                                'id': 'floatingDescription'
+                            }
+                        }) }}
+                        {{ form_label(form.description, 'Description détaillée', {
+                            'label_attr': {'for': 'floatingDescription', 'class': 'text-muted'}
+                        }) }}
+                    </div>
+                </div>
+
+                <!-- Date et Lieu -->
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.date, {
+                            'attr': {
+                                'class': 'form-control border-0 shadow-sm rounded-4 py-3',
+                                'placeholder': ' ',
+                                'id': 'floatingDate'
+                            }
+                        }) }}
+                        {{ form_label(form.date, 'Date et heure', {
+                            'label_attr': {'for': 'floatingDate', 'class': 'text-muted'}
+                        }) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.location, {
+                            'attr': {
+                                'class': 'form-control border-0 shadow-sm rounded-4 py-3',
+                                'placeholder': ' ',
+                                'id': 'floatingLocation'
+                            }
+                        }) }}
+                        {{ form_label(form.location, 'Lieu', {
+                            'label_attr': {'for': 'floatingLocation', 'class': 'text-muted'}
+                        }) }}
+                    </div>
+                </div>
+
+                <!-- Catégorie et Participants -->
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.category, {
+                            'attr': {
+                                'class': 'form-select border-0 shadow-sm rounded-4 py-3',
+                                'id': 'floatingCategory'
+                            }
+                        }) }}
+                        {{ form_label(form.category, 'Catégorie', {
+                            'label_attr': {'for': 'floatingCategory', 'class': 'text-muted'}
+                        }) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.maxParticipants, {
+                            'attr': {
+                                'class': 'form-control border-0 shadow-sm rounded-4 py-3',
+                                'placeholder': ' ',
+                                'id': 'floatingParticipants'
+                            }
+                        }) }}
+                        {{ form_label(form.maxParticipants, 'Participants max', {
+                            'label_attr': {'for': 'floatingParticipants', 'class': 'text-muted'}
+                        }) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boutons -->
+            <div class="d-flex justify-content-center gap-3 mt-5">
+                <button type="submit" class="btn btn-lg px-4 py-3 fw-bold text-white border-0" 
+                        style="border-radius: 12px; background: linear-gradient(135deg, #6A82FB 0%, #FC5C7D 100%); min-width: 200px; transition: all 0.3s ease;"
+                        data-hover-animate="pulse">
+                    {{ form.vars.value.id ? 'Modifier' : 'Créer' }}
+                    <i class="fas fa-{{ form.vars.value.id ? 'edit' : 'plus' }} ms-2"></i>
+                </button>
+                
+                <a href="{{ path('app_event_list') }}" class="btn btn-lg px-4 py-3 fw-bold" 
+                   style="border-radius: 12px; background: #F9F9FB; color: #6A82FB; border: 2px solid #6A82FB; min-width: 200px; transition: all 0.3s ease;">
+                    Annuler
+                    <i class="fas fa-times ms-2"></i>
+                </a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: transparent !important;
+        box-shadow: 0 0 0 0.25rem rgba(106, 130, 251, 0.25) !important;
+        background-color: white;
+        transform: translateY(-2px);
+    }
+    
+    .form-floating>label {
+        color: #6c757d;
+        transition: all 0.3s ease;
+    }
+    
+    .form-floating>.form-control:focus~label,
+    .form-floating>.form-control:not(:placeholder-shown)~label,
+    .form-floating>.form-select~label {
+        transform: scale(0.85) translateY(-1.5rem) translateX(0.15rem);
+        color: #6A82FB;
+    }
+    
+    [data-hover-animate="pulse"]:hover {
+        animation: pulse 1s infinite;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(106, 130, 251, 0.3);
+    }
+    
+    .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(108, 117, 125, 0.2);
+    }
+    
+    @keyframes pulse {
+        0% { transform: translateY(-3px) scale(1); }
+        50% { transform: translateY(-3px) scale(1.03); }
+        100% { transform: translateY(-3px) scale(1); }
+    }
+</style>
+{% endblock %}

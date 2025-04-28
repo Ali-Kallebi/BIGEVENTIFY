@@ -1,0 +1,140 @@
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}BIG Eventify{% endblock %}</title>
+
+        {{ encore_entry_link_tags('app') }}
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
+
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/fr.js"></script>
+    </head>
+
+    <body>
+        {% if app.request.get('_route') not in ['app_login'] %}
+            <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ path('app_home') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-event me-2" viewBox="0 0 16 16">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg>
+                <span class="fw-bold">BIG Eventify</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ path('app_home') }}">
+                            <i class="bi bi-house-door me-1"></i> Accueil
+                            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ path('app_event_calendar') }}">
+                            <i class="bi bi-calendar3 me-1"></i> Calendrier
+                            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+                        </a>
+                    </li>
+                    
+                    {% if app.user %}
+                    <li class="nav-item">
+                        <form action="{{ path('app_logout') }}" method="post" class="d-flex">
+                            <button type="submit" class="nav-link position-relative btn btn-link p-0 border-0 bg-transparent" style="cursor: pointer;">
+                                <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
+                                <span class="position-absolute bottom-0 start-50 translate-middle-x bg-danger rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+                            </button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ path('app_register') }}">
+                            <i class="bi bi-person-plus me-1"></i> S'inscrire
+                            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ path('app_login') }}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
+                            <span class="position-absolute bottom-0 start-50 translate-middle-x bg-primary rounded" style="height: 2px; width: 0; transition: width 0.3s ease;"></span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    .navbar {
+        padding: 0.8rem 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        margin: 0 0.2rem;
+        color: rgba(255, 255, 255, 0.85) !important;
+        transition: all 0.3s ease;
+        border-radius: 0.25rem;
+         margin: 0 0.25rem;
+        transition: all 0.3s ease;
+        
+    }
+    
+    .nav-link:hover {
+        color: white !important;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-link:hover span {
+        width: 70% !important;
+    }
+    
+    .navbar-brand {
+        font-size: 1.4rem;
+        letter-spacing: 0.5px;
+        color: white !important;
+    }
+  
+    /* Style spécifique pour le bouton de déconnexion */
+    .btn-link.nav-link:hover {
+        color: #ff6b6b !important;
+        text-decoration: none;
+    }
+</style>
+
+<script>
+    // Animation au survol des liens
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.querySelector('span').style.width = '70%';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.querySelector('span').style.width = '0';
+        });
+    });
+</script>
+        {% endif %}
+
+        <main class="container mt-4">
+            {% block body %}{% endblock %}
+        </main>
+
+        {{ encore_entry_script_tags('app') }}
+    </body>
+</html>

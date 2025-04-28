@@ -1,0 +1,71 @@
+# config/routes.yaml
+
+
+
+
+# Définir explicitement d'autres routes si nécessaire
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+    methods: [GET, POST]
+
+app_login:
+    path: /login
+    controller: App\Controller\LoginController::login
+    methods: [GET, POST]
+
+app_logout:
+    path: /logout
+    controller: App\Controller\LoginController::logout
+    methods: [POST]
+
+
+app_home:
+    path: /
+    controller: App\Controller\HomeController::index
+    methods: [GET]
+
+
+app_event_create:
+    path: /event/create
+    controller: App\Controller\EventController::create
+    methods: [GET, POST]
+
+app_event_list:
+    path: /events
+    controller: App\Controller\EventController::list
+    methods: [GET]
+
+app_event_show:
+    path: /event/{id}
+    controller: App\Controller\EventController::show
+    methods: [GET]
+
+app_event_delete:
+    path: /event/{id}/delete
+    controller: App\Controller\EventController::delete
+    methods: [POST]
+app_event_register:
+    path: /event/{id}/register
+    controller: App\Controller\EventController::register
+    methods: [POST]
+
+app_event_unregister:
+    path: /event/{id}/unregister
+    controller: App\Controller\EventController::unregister
+    methods: [POST]
+app_event_edit:
+    path: /event/{id}/edit
+    controller: App\Controller\EventController::edit
+    methods: [GET, POST]
+app_event_calendar:
+    path: /calendar
+    controller: App\Controller\CalendarController::index
+    methods: [GET]
+
+app_event_api:
+    path: /api/events
+    controller: App\Controller\CalendarController::eventsJson
+    methods: [GET]
+
+

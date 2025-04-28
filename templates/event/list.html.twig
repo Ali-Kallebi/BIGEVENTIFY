@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Événements - BIG EVENTIFY{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <!-- En-tête avec titre et bouton -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-4 fw-bold text-primary">Événements</h1>
+            <p class="lead text-muted">Découvrez tous les événements disponibles</p>
+        </div>
+        <div>
+            <a href="{{ path('app_event_create') }}" class="btn btn-primary btn-lg rounded-pill px-4">
+                <i class="fas fa-plus-circle me-2"></i> Créer un événement
+            </a>
+        </div>
+    </div>
+
+    <!-- Barre de recherche -->
+    <div class="card shadow-sm mb-5 border-0">
+        <div class="card-body p-4">
+            <form method="get" action="{{ path('app_event_list') }}">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-transparent border-end-0">
+                        <i class="fas fa-search text-muted"></i>
+                    </span>
+                    <input type="text" name="search" class="form-control border-start-0 ps-0"
+                           placeholder="Rechercher des événements..." value="{{ app.request.query.get('search') }}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter me-2"></i> Filtrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Liste des événements -->
+    {% if events|length > 0 %}
+        <div class="row g-4">
+            {% for event in events %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card event-card h-100 border-0 shadow-sm hover-lift">
+                        <!-- Image placeholder -->
+                        <div class="card-img-top position-relative">
+                            {% if event.category %}
+                                <span class="badge bg-primary position-absolute top-0 end-0 m-3">
+                                    {{ event.category.name }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <small class="text-muted">
+                                    <i class="far fa-calendar-alt me-1"></i> 
+                                    {{ event.date|date('d M Y, H:i') }}
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fas fa-users me-1"></i> 
+                                    {{ event.participants|length }}/{{ event.maxParticipants }}
+                                </small>
+                            </div>
+
+                            <h3 class="h5 mb-3">{{ event.title }}</h3>
+                            <p class="card-text text-muted mb-4">
+                                {{ event.description|slice(0, 100) ~ (event.description|length > 100 ? '...' : '') }}
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i> {{ event.location }}
+                                </span>
+
+                                <div class="btn-group" role="group">
+                                    <a href="{{ path('app_event_show', {'id': event.id}) }}" 
+                                       class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                        Voir
+                                    </a>
+
+                                    {% if is_granted('ROLE_ADMIN') or (app.user and event.creator == app.user) %}
+                                        <a href="{{ path('app_event_edit', {'id': event.id}) }}" 
+                                           class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <form method="POST" action="{{ path('app_event_delete', {'id': event.id}) }}" 
+                                              class="d-inline" onsubmit="return confirm('Supprimer cet événement ?');">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if currentPage == 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('app_event_list', {page: currentPage - 1, search: app.request.query.get('search')}) }}" aria-label="Précédent">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    {% for page in 1..totalPages %}
+                        <li class="page-item {% if page == currentPage %}active{% endif %}">
+                            <a class="page-link" href="{{ path('app_event_list', {page: page, search: app.request.query.get('search')}) }}">
+                                {{ page }}
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="page-item {% if currentPage == totalPages %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('app_event_list', {page: currentPage + 1, search: app.request.query.get('search')}) }}" aria-label="Suivant">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    {% else %}
+        <!-- Message aucun événement -->
+        <div class="text-center py-5 my-5">
+            <img src="{{ asset('images/empty-events.svg') }}" alt="Aucun événement" 
+                 class="img-fluid mb-4" style="max-height: 200px;">
+            <h3 class="h4 text-muted mb-3">Aucun événement trouvé</h3>
+            <p class="text-muted mb-4">Créez votre premier événement ou modifiez vos critères de recherche</p>
+            <a href="{{ path('app_event_create') }}" class="btn btn-primary px-4">
+                <i class="fas fa-plus me-2"></i> Créer un événement
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Styles personnalisés -->
+<style>
+    .event-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    }
+
+    .card-img-top {
+        border-top-left-radius: 12px !important;
+        border-top-right-radius: 12px !important;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.35em 0.65em;
+    }
+
+    .input-group-text {
+        background-color: transparent;
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        border-color: #4361ee;
+    }
+</style>
+
+<!-- Ajout des icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

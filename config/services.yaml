@@ -1,0 +1,24 @@
+# config/services.yaml
+
+parameters:
+    # Placez vos paramètres ici si vous en avez besoin
+
+services:
+    # Configuration par défaut pour tous les services
+    _defaults:
+        autowire: true      # Injection automatique des dépendances dans vos services
+        autoconfigure: true # Enregistrement automatique des services comme commandes, abonnés aux événements, etc.
+
+    # Déclarez les services dans le répertoire 'src/' comme services
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'  # Exclut ce répertoire des services
+            - '../src/Entity/'               # Exclut les entités des services
+            - '../src/Kernel.php'            # Exclut le fichier Kernel
+
+    # Ajoutez explicitement le service pour EventController si nécessaire
+    App\Controller\EventController:
+        autowire: true
+        autoconfigure: true
+        public: true

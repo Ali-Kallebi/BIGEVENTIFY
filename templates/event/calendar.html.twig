@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier des événements</title>
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #calendar {
+            height: calc(100% - 100px); /* Ajustement pour la navbar */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        /* ✅ Style de la topbar personnalisée */
+        .custom-navbar {
+            background-color:rgb(92, 2, 2); /* Bleu foncé */
+        }
+
+        .custom-navbar .navbar-brand,
+        .custom-navbar .nav-link,
+        .custom-navbar .btn-link {
+            color: #ffffff !important;
+        }
+
+        .custom-navbar .nav-link:hover,
+        .custom-navbar .btn-link:hover {
+            color: #cce0ff !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ TOPBAR COLORÉE -->
+   <nav class="navbar navbar-expand-lg navbar-dark custom-navbar sticky-top shadow">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ path('app_home') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-event me-2" viewBox="0 0 16 16">
+                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+            BIG Eventify
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{{ path('app_home') }}">
+                        <i class="bi bi-house-door me-1"></i> Accueil
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{{ path('app_event_calendar') }}">
+                        <i class="bi bi-calendar3 me-1"></i> Calendrier
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                
+                {% if app.user %}
+                <li class="nav-item">
+                    <form action="{{ path('app_logout') }}" method="post" class="d-inline">
+                        <button type="submit" class="nav-link position-relative px-3 btn btn-link">
+                            <i class="bi bi-box-arrow-right me-1"></i> Déconnexion
+                            <span class="nav-underline bg-danger"></span>
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{{ path('app_register') }}">
+                        <i class="bi bi-person-plus me-1"></i> S'inscrire
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link position-relative px-3" href="{{ path('app_login') }}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Connexion
+                        <span class="nav-underline"></span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .custom-navbar {
+       background: linear-gradient(rgb(23, 28, 55) 0%, #171C37 100%);
+
+        padding: 0.8rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        margin: 0 0.2rem;
+        color: rgba(255, 255, 255, 0.85) !important;
+        transition: all 0.3s ease;
+        border-radius: 0.25rem;
+         margin: 0 0.25rem;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover {
+        color: white !important;
+    }
+    
+    .nav-underline {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 2px;
+        width: 0;
+        background-color: #fff;
+        transition: width 0.3s ease;
+        border-radius: 2px;
+    }
+    
+    .nav-link:hover .nav-underline {
+        width: 60%;
+    }
+    
+    .btn-link.nav-link {
+        text-decoration: none;
+        background: transparent;
+        border: none;
+    }
+    
+    .btn-link.nav-link:hover {
+        color: #ff9e9e !important;
+    }
+    
+    @media (max-width: 991.98px) {
+        .navbar-collapse {
+            padding-top: 1rem;
+        }
+        
+        .nav-item {
+            margin: 0.5rem 0;
+        }
+    }
+</style>
+
+<script>
+    // Animation de la barre de navigation au scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.custom-navbar');
+        if (window.scrollY > 50) {
+            navbar.style.padding = '0.5rem 0';
+            navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.padding = '0.8rem 0';
+            navbar.style.boxShadow = 'none';
+        }
+    });
+</script>
+
+    <h1>Calendrier des événements</h1>
+    <div id="calendar"></div>
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/fr.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'fr',
+                initialView: 'dayGridMonth',
+                height: '100%',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    today: 'Aujourd\'hui',
+                    month: 'Mois',
+                    week: 'Semaine',
+                    day: 'Jour'
+                },
+                events: function(info, successCallback, failureCallback) {
+                    fetch('/api/events')
+                        .then(response => response.json())
+                        .then(events => {
+                            successCallback(events);
+                        });
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+
+</body>
+</html>

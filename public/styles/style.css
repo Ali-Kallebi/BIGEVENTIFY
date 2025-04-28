@@ -1,0 +1,73 @@
+/* Style pour le cadre de formulaire */
+.card {
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre pour le cadre */
+}
+
+/* Rendre le bouton de soumission plus attrayant */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 5px; /* Coins arrondis pour un look plus moderne */
+    padding: 10px 20px; /* Plus de padding pour un bouton plus grand */
+    font-size: 16px; /* Taille du texte du bouton */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Changement de couleur au survol */
+    border-color: #0056b3; /* Changement de couleur de la bordure au survol */
+}
+
+/* Éléments de champ de saisie */
+.form-control, .form-select {
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid #ddd; /* Légère bordure pour délimiter les champs */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12); /* Ombre intérieure */
+}
+
+/* Champ de rôle personnalisé */
+#roles {
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #ddd; /* Légère bordure pour délimiter le champ */
+}
+
+/* Style pour la top bar (header) */
+.navbar {
+    background: linear-gradient(to right, #8C2F0B, #B54E20, #5D1E06); /* Dégradé de couleur */
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre sous la navbar */
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: white !important;  /* Force la couleur du texte à être blanche */
+}
+
+.navbar .nav-link:hover {
+    color: #FFD700 !important;  /* Couleur au survol des liens */
+}
+/* styles/style.css */
+body {
+    background-color: #F8F9FA;  /* Fond clair et moderne */
+}
+
+input, select, textarea {
+    background-color: #F1F3F5;  /* Fond légèrement plus clair pour les champs de formulaire */
+    border: 1px solid #CED4DA;   /* Bordure gris clair */
+}
+
+button {
+    background-color: #28A745;   /* Vert vif pour le bouton */
+    border-color: #28A745;       /* Bordure vert vif */
+}
+
+button:hover {
+    background-color: #218838;   /* Couleur au survol */
+    border-color: #1E7E34;       /* Bordure au survol */
+}
